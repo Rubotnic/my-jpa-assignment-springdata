@@ -4,24 +4,29 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import se.lexicon.myjpaassignmentspringdata.entity.Ingredient;
 import se.lexicon.myjpaassignmentspringdata.entity.Recipe;
+import se.lexicon.myjpaassignmentspringdata.entity.RecipeCategory;
 
-//public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
+import java.util.List;
+
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
-//FEL!!!
 
-    @Query("SELECT a FROM Recipe a WHERE a.recipeName = :rn")
-    Recipe findRecipeByFirstName(@Param("rn") String recipeName);
+//    @Query("SELECT a FROM Recipe a WHERE a.recipeName = :rn")
+//    Recipe findRecipeByRecipeName(@Param("rn") String recipeName);
+//
+////    @Query("SELECT r FROM Recipe r WHERE in(r.recipeName and r.recipeIngredients) = :rn")
+//
+//
+//    List<RecipeCategory> findAllByRecipeNameIsContainingAndCategories(@Param("rc")String categorise);
 
-//    @Query("SELECT a FROM Recipe a WHERE a.recipeIngredients IN Ingredient.ingredientName = :in")
-//    Recipe findAllByRecipeNameAndRecipeIngredients(@Param("in") String recipeName);
-//
-//    @Query("SELECT a FROM Recipe a, IN (a.categories) WHERE RecipeCategory.category = :sc")
-//    Recipe findRecipeByCategories(@Param("sc")String category);
-//
-//    @Query("SELECT a FROM Recipe a, IN (a.categories) WHERE RecipeCategory.category = :sco AND RecipeCategory .category = :sct")
-//    Recipe findRecipeByCategoriesAndCategories(@Param("sco")String category1, @Param("sct") String category2);
+
+
+
+
+
+
 
 
 }

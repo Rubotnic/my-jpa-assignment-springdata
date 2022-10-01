@@ -16,7 +16,7 @@ public class Recipe {
 
     private String recipeName;
 
-    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = PERSIST)
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER, cascade = {PERSIST, REMOVE})
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = RecipeInstruction.class)

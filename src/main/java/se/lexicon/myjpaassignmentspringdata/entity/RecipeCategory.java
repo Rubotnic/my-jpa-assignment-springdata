@@ -13,7 +13,7 @@ public class RecipeCategory {
     private Integer id;
     private String category;
 
-    @ManyToMany(mappedBy = "categories", cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH}, mappedBy = "categories")
     private Set<Recipe> recipe = new HashSet<>();
 
     public RecipeCategory() {

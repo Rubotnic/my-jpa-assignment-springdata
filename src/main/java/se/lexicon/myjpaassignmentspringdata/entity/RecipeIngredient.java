@@ -1,5 +1,7 @@
 package se.lexicon.myjpaassignmentspringdata.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -8,11 +10,12 @@ import java.util.Objects;
 public class RecipeIngredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_ingredient_id")
-    private int id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(name = "recipe_ingredient_id", length = 10)
+    private String prKey;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
@@ -30,8 +33,8 @@ public class RecipeIngredient {
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(int id, Ingredient ingredient, double amount, Measurement measurement, Recipe recipe) {
-        this.id = id;
+    public RecipeIngredient(String prKey, Ingredient ingredient, double amount, Measurement measurement, Recipe recipe) {
+        this.prKey = prKey;
         this.ingredient = ingredient;
         this.amount = amount;
         this.measurement = measurement;
@@ -46,12 +49,12 @@ public class RecipeIngredient {
     }
 
 
-    public int getId() {
-        return id;
+    public String getPrKey() {
+        return prKey;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPrKey(String prKey) {
+        this.prKey = prKey;
     }
 
     public Ingredient getIngredient() {
@@ -91,18 +94,18 @@ public class RecipeIngredient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredient that = (RecipeIngredient) o;
-        return id == that.id && Double.compare(that.amount, amount) == 0;
+        return Double.compare(that.amount, amount) == 0 && Objects.equals(prKey, that.prKey) && Objects.equals(ingredient, that.ingredient);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amount);
+        return Objects.hash(prKey, ingredient, amount);
     }
 
     @Override
     public String toString() {
         return "RecipeIngredient{" +
-                "id=" + id +
+                "prKey='" + prKey + '\'' +
                 ", ingredient=" + ingredient +
                 ", amount=" + amount +
                 ", measurement=" + measurement +

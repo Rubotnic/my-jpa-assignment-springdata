@@ -28,7 +28,6 @@ public class Ingredient {
     }
 
 
-
     public int getId() {
         return id;
     }
@@ -44,6 +43,7 @@ public class Ingredient {
     public void setIngredientName(String ingredientName) {
         this.ingredientName = ingredientName;
     }
+
 
     @Override
     public boolean equals(Object o) {
