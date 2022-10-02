@@ -135,8 +135,6 @@ public class MyJpaAssignmentSpringdataApplication {
         RecipeInstruction potatolarkitssoup = recipeInstructionRepository.save(new RecipeInstruction("text"));
 
         Recipe wonderfulsoup = recipeRepository.save(new Recipe("wonderful soup with a toch of lakrits."));
-
-
         }
 
 
