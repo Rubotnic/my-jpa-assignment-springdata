@@ -26,7 +26,7 @@ public class Recipe {
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "recipe_recipe_category",
     joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = {@JoinColumn(name = "recipe_category_id")})
-    private Set<RecipeCategory> categories = new HashSet<>();
+    private Set<RecipeCategory> categories;
 
 
     public Recipe() {
@@ -45,6 +45,33 @@ public class Recipe {
         this.recipeIngredients = recipeIngredients;
         this.instruction = instruction;
         this.categories = categories;
+    }
+
+
+
+    public void addRecipeCategory(RecipeCategory recipeCategorys){
+        if (recipeCategorys == null) throw new IllegalArgumentException("Parameter Book was null");
+        if (categories == null) categories = new HashSet<>();
+
+        categories.add(recipeCategorys);
+        recipeCategorys.setCategory(String.valueOf(this));
+    }
+
+    public void removeRecipeCategory(RecipeCategory recipeCategorys) {
+        if (recipeCategorys == null) throw new IllegalArgumentException("Parameter Book was null");
+        if (categories == null) setCategories(new HashSet<>());
+
+        if (categories.contains(recipeCategorys)) {
+            recipeCategorys.getRecipe().remove(this);
+            categories.remove(recipeCategorys);
+        }
+    }
+
+
+
+
+    public Recipe(String recipeName) {
+        this.recipeName = recipeName;
     }
 
     public Integer getId() {

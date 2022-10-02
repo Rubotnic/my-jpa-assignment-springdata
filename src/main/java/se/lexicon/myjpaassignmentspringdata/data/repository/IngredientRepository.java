@@ -14,6 +14,10 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Integer>
     Optional<Ingredient> findIngredientByIngredientNames(@Param("in")String ingredientName);
 
     @Query("SELECT  n FROM Ingredient n WHERE n.ingredientName = :inb")
-    List<Ingredient> findIngredientByIngredientNameBetweenAndIngredientName(@Param("inb")String ingredientName);
+    List<Ingredient> findAllByIngredientByIngredientNameBetweenAndIngredientName(@Param("inb")String ingredientName);
 
+    @Query("SELECT  n FROM Ingredient n WHERE n.ingredientName = :inb")
+    List<Ingredient> findByIngredientNameFragment(@Param("inb")String ingredientName);
+
+    Optional<Ingredient> findIngredientNameByIngredientNameContaining(String ingredient);
 }
