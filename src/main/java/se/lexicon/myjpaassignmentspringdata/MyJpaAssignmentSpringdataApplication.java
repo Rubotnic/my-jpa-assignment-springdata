@@ -8,13 +8,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.myjpaassignmentspringdata.data.repository.*;
-import se.lexicon.myjpaassignmentspringdata.entity.Ingredient;
-import se.lexicon.myjpaassignmentspringdata.entity.Recipe;
-import se.lexicon.myjpaassignmentspringdata.entity.RecipeCategory;
-import se.lexicon.myjpaassignmentspringdata.entity.RecipeInstruction;
-
-
+import se.lexicon.myjpaassignmentspringdata.entity.*;
 import java.util.Optional;
+
 
 @SpringBootApplication
 public class MyJpaAssignmentSpringdataApplication {
@@ -49,10 +45,6 @@ public class MyJpaAssignmentSpringdataApplication {
     @Override
         public void run(String... args) throws Exception {
 
-//        seedingRecipeInstruction();
-//
-//        seedingCategory1();
-//        seedingCategory2();
 
         seedingSalt();
         seedingWater();
@@ -69,17 +61,19 @@ public class MyJpaAssignmentSpringdataApplication {
         findIngredientByIngredientNames();
         findByIngredientNameFragment();
 
-        seedingRecipe1();
-        seedingRecipe2();
 
-        seedingRecipeInstruction1();
+
+        seedingCategory();
+        seedingCategory4();
+
+        seedingRecipeCategory();
+//        seedingRecipeIngredient();
 
 
     }
 
 
-
-        private void seedingTomato() throws InterruptedException {
+    private void seedingTomato() throws InterruptedException {
         Ingredient tomat = ingredientRepository.save(new Ingredient("tomat"));
         }
         private void seedingPotato() throws InterruptedException {
@@ -99,59 +93,68 @@ public class MyJpaAssignmentSpringdataApplication {
         }
 
 
-//        private void seedingCategory1() throws InterruptedException {
-//        RecipeCategory western = recipeCategoryRepository.save(new RecipeCategory("Western"));
-//        }
-//        private void seedingCategory2() throws InterruptedException {
-//        RecipeCategory asien = recipeCategoryRepository.save(new RecipeCategory("Asien"));
-//        }
-
+// --- Instruction
 
         private void seedingInstructionTomatoSoup() throws InterruptedException {
         RecipeInstruction potatolarkitssoup = recipeInstructionRepository.save(new RecipeInstruction(1,"Peel the potatoes, then cut them into smaller pieces. Put them in water so that they do not darken.Then mix with lakrits."));
-    }
+        }
+
         private void seedingInstructionStromming() throws InterruptedException {
         RecipeInstruction stromminglarkitssoup = recipeInstructionRepository.save(new RecipeInstruction(2, "Open the jar with sour baltic herring and mix it with licorice.Put them in a saucepan and cook until they are soft."));
-    }
+        }
 
 
-        private void seedingRecipe1() throws InterruptedException {
-        Recipe miraclesoup = recipeRepository.save(new Recipe("Miracle soup with a toch of lakrits."));
+// --- category
+
+        private void seedingCategory() throws InterruptedException {
 
         RecipeCategory western = recipeCategoryRepository.save(new RecipeCategory("Western"));
-        miraclesoup.addRecipeCategory(western);
-        }
-
-        private void seedingRecipe2() throws InterruptedException {
-        Recipe wonderfulsoup = recipeRepository.save(new Recipe("wonderful soup with a toch of lakrits."));
-
         RecipeCategory asien = recipeCategoryRepository.save(new RecipeCategory("Asien"));
-        wonderfulsoup.addRecipeCategory(asien);
+        RecipeCategory italy = recipeCategoryRepository.save(new RecipeCategory("Italy"));
+        }
+
+        private void seedingCategory4() throws InterruptedException {
+        Recipe miracle = recipeRepository.save(new Recipe("Wonderful soup with a toch of lakrits."));
+        RecipeInstruction soup = recipeInstructionRepository.save(new RecipeInstruction(2,"Open the jar with sour baltic herring and mix it with licorice."));
+        miracle.setInstruction(soup);
+        }
+
+    // --- combination
+
+
+        private void seedingRecipeCategory() throws InterruptedException {
+        Recipe miraclesoup = recipeRepository.save(new Recipe("Miracle soup with a toch of lakrits."));
+        RecipeCategory western = recipeCategoryRepository.save(new RecipeCategory("Western"));
+        miraclesoup.addRecipeCategorys((western));
+
+        Recipe potatolarkitssoup = recipeRepository.save(new Recipe("Miracle soup with a toch of lakrits."));
+        RecipeCategory asien = recipeCategoryRepository.save(new RecipeCategory("Asien"));
+        potatolarkitssoup.addRecipeCategorys(asien);
         }
 
 
+//        private void seedingRecipeIngredient() throws InterruptedException {
+//        Recipe miraclesoup = recipeRepository.save(new Recipe("Miracle soup with a toch of lakrits."));
+//        Ingredient tomat = ingredientRepository.save(new Ingredient("tomat"));
+//        RecipeIngredient ingredients = recipeIngredientRepository.save(new RecipeIngredient("123",tomat, 1, Measurement.TBSP, miraclesoup));
+//
+//        ingredients.getIngredient().toString();
+//
+//        }
 
-        private void seedingRecipeInstruction1() throws  InterruptedException{
-        RecipeInstruction potatolarkitssoup = recipeInstructionRepository.save(new RecipeInstruction("text"));
-
-        Recipe wonderfulsoup = recipeRepository.save(new Recipe("wonderful soup with a toch of lakrits."));
-        }
 
 
-
-
-
+// --- find
 
         private void findIngredientByIngredientNames(){
         Optional<Ingredient> tomat = ingredientRepository.findIngredientByIngredientNames("tomat");
         tomat.ifPresent(System.out::println);
-    }
+        }
 
         private void findByIngredientNameFragment(){
         Optional<Ingredient> foundIngredientByIngredientNameFragment = ingredientRepository.findIngredientNameByIngredientNameContaining("sal");
         foundIngredientByIngredientNameFragment.ifPresent(System.out::println);
-
-    }
+        }
 
 }
 

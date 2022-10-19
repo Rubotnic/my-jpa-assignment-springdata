@@ -1,14 +1,8 @@
 package se.lexicon.myjpaassignmentspringdata.data.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-import se.lexicon.myjpaassignmentspringdata.entity.Ingredient;
 import se.lexicon.myjpaassignmentspringdata.entity.Recipe;
-import se.lexicon.myjpaassignmentspringdata.entity.RecipeCategory;
 
-import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 

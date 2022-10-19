@@ -34,6 +34,7 @@ public class RecipeCategory {
         this.recipe = recipe;
     }
 
+
     public Integer getId() {
         return id;
     }

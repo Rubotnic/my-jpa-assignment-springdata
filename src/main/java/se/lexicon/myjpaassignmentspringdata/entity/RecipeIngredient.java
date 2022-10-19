@@ -49,6 +49,30 @@ public class RecipeIngredient {
     }
 
 
+
+    private double measurementIngredient(){
+
+        switch(measurement){
+            case TBSP:
+            default:
+                return 1;
+            case TSP:
+                return 2;
+            case G:
+                return 3;
+            case HG:
+                return 4;
+            case KG:
+                return 5;
+            case ML:
+                return 6;
+            case CL:
+                return 7;
+            case DL:
+                return 8;
+        }
+    }
+
     public String getPrKey() {
         return prKey;
     }

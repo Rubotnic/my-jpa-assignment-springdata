@@ -2,7 +2,6 @@ package se.lexicon.myjpaassignmentspringdata.entity;
 
 import javax.persistence.*;
 import java.util.*;
-
 import static javax.persistence.CascadeType.*;
 
 @Entity
@@ -25,7 +24,7 @@ public class Recipe {
 
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "recipe_recipe_category",
-    joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = {@JoinColumn(name = "recipe_category_id")})
+            joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = {@JoinColumn(name = "recipe_category_id")})
     private Set<RecipeCategory> categories;
 
 
@@ -47,10 +46,13 @@ public class Recipe {
         this.categories = categories;
     }
 
+    public Recipe(String recipeName) {
+        this.recipeName = recipeName;
+    }
 
 
-    public void addRecipeCategory(RecipeCategory recipeCategorys){
-        if (recipeCategorys == null) throw new IllegalArgumentException("Parameter Book was null");
+    public void addRecipeCategorys(RecipeCategory recipeCategorys) {
+        if (recipeCategorys == null) throw new IllegalArgumentException("Parameter RecipeCategory was null");
         if (categories == null) categories = new HashSet<>();
 
         categories.add(recipeCategorys);
@@ -58,7 +60,7 @@ public class Recipe {
     }
 
     public void removeRecipeCategory(RecipeCategory recipeCategorys) {
-        if (recipeCategorys == null) throw new IllegalArgumentException("Parameter Book was null");
+        if (recipeCategorys == null) throw new IllegalArgumentException("Parameter RecipeCategory was null");
         if (categories == null) setCategories(new HashSet<>());
 
         if (categories.contains(recipeCategorys)) {
@@ -68,11 +70,22 @@ public class Recipe {
     }
 
 
+    public void addRecipeInstrucation(RecipeInstruction recipeInstruction) {
+        if (recipeInstruction == null) throw new IllegalArgumentException("Parameter RecipeInstruction was null");
+        if (instruction == null) instruction = new RecipeInstruction();
 
-
-    public Recipe(String recipeName) {
-        this.recipeName = recipeName;
+        addRecipeInstrucation(instruction);
+        recipeInstruction.setInstruction(String.valueOf(this));
     }
+
+    public void removeRecipeInstrucation(RecipeInstruction recipeInstruction) {
+        if (recipeInstruction == null) throw new IllegalArgumentException("Parameter RecipeInstruction was null");
+
+        recipeInstruction.getInstruction();
+        removeRecipeInstrucation(instruction);
+    }
+
+
 
     public Integer getId() {
         return id;

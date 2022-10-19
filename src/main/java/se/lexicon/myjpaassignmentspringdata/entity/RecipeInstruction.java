@@ -27,6 +27,22 @@ public class RecipeInstruction {
     }
 
 
+    public void addRecipeInstrucation(RecipeInstruction recipeInstruction) {
+        if (recipeInstruction == null) throw new IllegalArgumentException("Parameter RecipeInstruction was null");
+        if (instruction == null) instruction = String.valueOf(new RecipeInstruction());
+
+        addRecipeInstrucation(recipeInstruction);
+        recipeInstruction.setInstruction(String.valueOf(this));
+    }
+
+    public void removeRecipeInstrucation(RecipeInstruction recipeInstruction) {
+        if (recipeInstruction == null) throw new IllegalArgumentException("Parameter RecipeInstruction was null");
+
+        recipeInstruction.getInstruction();
+        removeRecipeInstrucation(recipeInstruction);
+
+    }
+
 
 
 
