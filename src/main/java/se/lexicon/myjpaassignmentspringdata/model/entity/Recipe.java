@@ -132,12 +132,12 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return id == recipe.id && Objects.equals(recipeName, recipe.recipeName);
+        return Objects.equals(id, recipe.id) && Objects.equals(recipeName, recipe.recipeName) && Objects.equals(instruction, recipe.instruction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, recipeName);
+        return Objects.hash(id, recipeName, instruction);
     }
 
     @Override
