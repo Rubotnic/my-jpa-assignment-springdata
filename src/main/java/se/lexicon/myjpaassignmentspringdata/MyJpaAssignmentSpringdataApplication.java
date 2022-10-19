@@ -7,8 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import se.lexicon.myjpaassignmentspringdata.data.repository.*;
-import se.lexicon.myjpaassignmentspringdata.entity.*;
+//import se.lexicon.myjpaassignmentspringdata.data.repository.*;
+//import se.lexicon.myjpaassignmentspringdata.entity.*;
+import se.lexicon.myjpaassignmentspringdata.model.entity.Ingredient;
+import se.lexicon.myjpaassignmentspringdata.model.entity.Recipe;
+import se.lexicon.myjpaassignmentspringdata.model.entity.RecipeCategory;
+import se.lexicon.myjpaassignmentspringdata.model.entity.RecipeInstruction;
+import se.lexicon.myjpaassignmentspringdata.repository.*;
+
 import java.util.Optional;
 
 

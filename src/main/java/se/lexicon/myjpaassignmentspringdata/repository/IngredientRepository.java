@@ -1,9 +1,9 @@
-package se.lexicon.myjpaassignmentspringdata.data.repository;
+package se.lexicon.myjpaassignmentspringdata.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import se.lexicon.myjpaassignmentspringdata.entity.Ingredient;
+import se.lexicon.myjpaassignmentspringdata.model.entity.Ingredient;
 
 import java.util.List;
 import java.util.Optional;

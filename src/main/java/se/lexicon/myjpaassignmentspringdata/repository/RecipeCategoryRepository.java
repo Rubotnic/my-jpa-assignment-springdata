@@ -1,8 +1,8 @@
-package se.lexicon.myjpaassignmentspringdata.data.repository;
+package se.lexicon.myjpaassignmentspringdata.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
-import se.lexicon.myjpaassignmentspringdata.entity.RecipeCategory;
+import se.lexicon.myjpaassignmentspringdata.model.entity.RecipeCategory;
 
 @Component
 public interface RecipeCategoryRepository extends JpaRepository<RecipeCategory, Integer> {

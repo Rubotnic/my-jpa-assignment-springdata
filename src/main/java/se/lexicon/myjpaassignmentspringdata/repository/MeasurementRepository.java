@@ -1,7 +1,7 @@
-package se.lexicon.myjpaassignmentspringdata.data.repository;
+package se.lexicon.myjpaassignmentspringdata.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import se.lexicon.myjpaassignmentspringdata.entity.RecipeCategory;
+import se.lexicon.myjpaassignmentspringdata.model.entity.RecipeCategory;
 
 public interface MeasurementRepository extends JpaRepository<RecipeCategory, Integer> {
 }

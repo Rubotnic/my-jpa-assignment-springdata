@@ -1,10 +1,9 @@
-package se.lexicon.myjpaassignmentspringdata.entity;
+package se.lexicon.myjpaassignmentspringdata.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.HashSet;
 import java.util.Objects;
 
 @Entity

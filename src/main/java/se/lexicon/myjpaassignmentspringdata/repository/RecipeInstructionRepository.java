@@ -1,7 +1,7 @@
-package se.lexicon.myjpaassignmentspringdata.data.repository;
+package se.lexicon.myjpaassignmentspringdata.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import se.lexicon.myjpaassignmentspringdata.entity.RecipeInstruction;
+import se.lexicon.myjpaassignmentspringdata.model.entity.RecipeInstruction;
 
 public interface RecipeInstructionRepository extends JpaRepository<RecipeInstruction, Integer> {
 

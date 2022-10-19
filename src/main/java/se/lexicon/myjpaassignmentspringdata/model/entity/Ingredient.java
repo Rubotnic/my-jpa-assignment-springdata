@@ -1,4 +1,4 @@
-package se.lexicon.myjpaassignmentspringdata.entity;
+package se.lexicon.myjpaassignmentspringdata.model.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
