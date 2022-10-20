@@ -23,7 +23,7 @@ public class RecipeController {
     }
 
 
-    @GetMapping("api/v1/recipe/{id}")
+    @GetMapping("/api/v1/recipe/{id}")
     public ResponseEntity<RecipeDto> findByRecipeId(@PathVariable("id") Integer id) {
 
         if(id == null) throw new IllegalArgumentException("Null!");
@@ -33,7 +33,7 @@ public class RecipeController {
         return ResponseEntity.ok(modelMapper.map(foundById, RecipeDto.class));
     }
 
-    @GetMapping("api/v1/recipe/search")
+    @GetMapping("/api/v1/recipe/search")
     public ResponseEntity<RecipeDto> findByRecipeName(@RequestParam("recipeName") String name) {
 
         if(name == null) throw new IllegalArgumentException("Null!");
@@ -41,6 +41,8 @@ public class RecipeController {
         return ResponseEntity.ok(modelMapper.map(foundByName, RecipeDto.class));
     }
 
+
+    @GetMapping("/api/v1/recipe")
     public ResponseEntity <RecipeDto> create(@RequestBody RecipeDto recipeForm) {
         System.out.println("### In create");
 
@@ -52,7 +54,7 @@ public class RecipeController {
     }
 
 
-    @GetMapping("/api/v1/recipe")
+    @GetMapping("/api/v1/searchable")
     public ResponseEntity<List<RecipeDto>> findAll() {
         System.out.println("### executed! ###");
         List<Recipe> listOfRecipe = recipeRepository.findAll();
@@ -62,7 +64,7 @@ public class RecipeController {
     }
 
 
-    @PutMapping("api/v1/recipe/{id}")
+    @PutMapping("/api/v1/recipe/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody RecipeDto recipeForm) {
         System.out.println("Deleted");
         System.out.println(id);
