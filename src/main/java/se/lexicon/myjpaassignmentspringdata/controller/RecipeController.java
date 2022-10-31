@@ -1,90 +1,86 @@
 package se.lexicon.myjpaassignmentspringdata.controller;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.lexicon.myjpaassignmentspringdata.exception.ResourceNotFoundException;
 import se.lexicon.myjpaassignmentspringdata.model.dto.RecipeDto;
-import se.lexicon.myjpaassignmentspringdata.model.entity.Recipe;
-import se.lexicon.myjpaassignmentspringdata.repository.RecipeRepository;
-import java.util.List;
+import se.lexicon.myjpaassignmentspringdata.model.dto.RecipeIngredientDto;
+import se.lexicon.myjpaassignmentspringdata.model.form.RecipeForm;
+import se.lexicon.myjpaassignmentspringdata.services.RecipeIngredientService;
+import se.lexicon.myjpaassignmentspringdata.services.RecipeService;
 
+import javax.validation.Valid;
+import java.util.Collection;
+
+
+@CrossOrigin("*")
+@RequestMapping(path = "/api/v1/recipe")
 @RestController
 public class RecipeController {
 
-    private final RecipeRepository recipeRepository;
-    private final ModelMapper modelMapper;
+    private final RecipeService recipeService;
+    private final RecipeIngredientService recipeIngService;
 
-    public RecipeController(RecipeRepository recipeRepository, ModelMapper modelMapper){
-        this.recipeRepository = recipeRepository;
-        this.modelMapper = modelMapper;
+    @Autowired
+    public RecipeController(RecipeService recipeService, RecipeIngredientService recipeIngService) {
+        this.recipeService = recipeService;
+        this.recipeIngService = recipeIngService;
     }
 
-
-    @GetMapping("/api/v1/recipe/{id}")
-    public ResponseEntity<RecipeDto> findByRecipeId(@PathVariable("id") Integer id) {
-
-        if(id == null) throw new IllegalArgumentException("Null!");
-        Recipe foundById = recipeRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException("Data not found!")
-        );
-        return ResponseEntity.ok(modelMapper.map(foundById, RecipeDto.class));
+    @PostMapping
+    public ResponseEntity<RecipeDto> create(@RequestBody @Valid RecipeForm creationForm) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(recipeService.create(creationForm));
     }
 
-    @GetMapping("/api/v1/recipe/search")
-    public ResponseEntity<RecipeDto> findByRecipeName(@RequestParam("recipeName") String name) {
-
-        if(name == null) throw new IllegalArgumentException("Null!");
-        Recipe foundByName = recipeRepository.findRecipeByRecipeName(name);
-        return ResponseEntity.ok(modelMapper.map(foundByName, RecipeDto.class));
-    }
-
-
-    @GetMapping("/api/v1/recipe")
-    public ResponseEntity <RecipeDto> create(@RequestBody RecipeDto recipeForm) {
-        System.out.println("### In create");
-
-        Recipe toEntity = modelMapper.map(recipeForm, Recipe.class);
-        Recipe savedRecpie = recipeRepository.save(toEntity);
-        RecipeDto toDto = modelMapper.map(savedRecpie, RecipeDto.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(toDto);
-    }
-
-
-    @GetMapping("/api/v1/searchable")
-    public ResponseEntity<List<RecipeDto>> findAll() {
-        System.out.println("### executed! ###");
-        List<Recipe> listOfRecipe = recipeRepository.findAll();
-        List<RecipeDto> listOfDto = modelMapper.map(listOfRecipe, new TypeToken<List<RecipeDto>>() {
-        }.getType());
-        return ResponseEntity.ok(listOfDto);
-    }
-
-
-    @PutMapping("/api/v1/recipe/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody RecipeDto recipeForm) {
-        System.out.println("Deleted");
-        System.out.println(id);
-        System.out.println(recipeForm);
-
-        if (id.equals(recipeForm.getId())) {
-            Recipe recipe = modelMapper.map(recipeForm, Recipe.class);
-            recipeRepository.save(recipe);
-
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(418).build();
+    @GetMapping
+    public ResponseEntity<?> find(@RequestParam(value = "search", defaultValue = "all") String search) throws IllegalArgumentException {
+        switch (search.toLowerCase()) {
+            case "idle":
+                return findIdleRecipe();
+            case "all":
+                return findAll();
+            default:
+                throw new IllegalArgumentException("Invalid search Param: valid Params Are: all, idle");
         }
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<RecipeDto> findById(@PathVariable("id") Integer recipeId) {
+        return ResponseEntity.ok(recipeService.findById(recipeId));
+    }
 
-    @DeleteMapping("api/v1/recipe/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
-        System.out.println(id);
-        recipeRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Collection<RecipeDto>> findAll() {
+        return ResponseEntity.ok(recipeService.findAll());
+    }
+
+    public ResponseEntity<Collection<RecipeDto>> findIdleRecipe() {
+        return ResponseEntity.ok(recipeService.findIdleRecipe());
+    }
+
+    @GetMapping(path = "/{id}/ingredients")
+    public ResponseEntity<RecipeIngredientDto> getRecipeIngredient(@PathVariable("id") String prKey) {
+        return ResponseEntity.ok(recipeIngService.findById(prKey));
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<String> delete(@PathVariable("id") Integer recipeId) {
+        boolean delete = recipeService.delete(recipeId);
+        return ResponseEntity.ok(delete ? "Recipe with id " + recipeId + " was deleted" : "Person Not Deleted");
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<RecipeDto> update(@PathVariable("id") Integer recipeId, @RequestBody @Valid RecipeForm updateForm) {
+        return ResponseEntity.ok(recipeService.update(recipeId, updateForm));
+    }
+
+    @PutMapping("/{id}/todos/add")
+    public ResponseEntity<RecipeDto> assignRecipe(@PathVariable("id") Integer recipeId, @RequestParam("prKey") String prKey) {
+        return ResponseEntity.ok(recipeService.addRecipeIngredient(recipeId, String.valueOf(prKey)));
+    }
+
+    @PutMapping("/{id}/todos/remove")
+    public ResponseEntity<RecipeDto> removeRecipe(@PathVariable("id") Integer recipeId, @RequestParam("prKey") String prKey) {
+        return ResponseEntity.ok(recipeService.removeRecipeIngredient(recipeId, String.valueOf(prKey)));
     }
 }

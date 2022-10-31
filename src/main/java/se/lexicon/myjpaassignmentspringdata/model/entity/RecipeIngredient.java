@@ -1,7 +1,6 @@
 package se.lexicon.myjpaassignmentspringdata.model.entity;
 
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -23,12 +22,11 @@ public class RecipeIngredient {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "measurement")
-    private Measurement measurement;
+    public Measurement measurement;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, targetEntity = Recipe.class)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
-
 
     public RecipeIngredient() {
     }
@@ -49,9 +47,11 @@ public class RecipeIngredient {
     }
 
 
+    public RecipeIngredient(double amount, Ingredient ingredient) {
+    }
+
 
     private double measurementIngredient(){
-
         switch(measurement){
             case TBSP:
             default:

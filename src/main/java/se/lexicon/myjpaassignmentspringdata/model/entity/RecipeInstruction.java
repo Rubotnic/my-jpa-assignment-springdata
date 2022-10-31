@@ -12,21 +12,23 @@ public class RecipeInstruction {
 
     @Id
     @Column(name = "instruction_id")
-    private int id;
-
+    private Integer instructionId;
     private String instruction;
 
 
     public RecipeInstruction() {
     }
 
-    public RecipeInstruction(int id, String instruction) {
-        this.id = id;
+    public RecipeInstruction(Integer instructionId, String instruction) {
+        this.instructionId = instructionId;
         this.instruction = instruction;
     }
 
+    public RecipeInstruction(String instruction) {
+        this.instruction = instruction;
+    }
 
-    public void addRecipeInstrucation(RecipeInstruction recipeInstruction) {
+        public void addRecipeInstrucation(RecipeInstruction recipeInstruction) {
         if (recipeInstruction == null) throw new IllegalArgumentException("Parameter RecipeInstruction was null");
         if (instruction == null) instruction = String.valueOf(new RecipeInstruction());
 
@@ -39,23 +41,18 @@ public class RecipeInstruction {
 
         recipeInstruction.getInstruction();
         removeRecipeInstrucation(recipeInstruction);
-
     }
 
 
-
-
-    public RecipeInstruction(String instruction) {
-        this.instruction = instruction;
+    public Integer getInstructionId() {
+        return instructionId;
     }
 
-    public int getId() {
-        return id;
+    public void setInstructionId(Integer instructionId) {
+        this.instructionId = instructionId;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     public String getInstruction() {
         return instruction;
@@ -65,23 +62,27 @@ public class RecipeInstruction {
         this.instruction = instruction;
     }
 
+    public void setRecipe(Recipe recipe) {
+        this.instruction = instruction;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeInstruction that = (RecipeInstruction) o;
-        return id == that.id && Objects.equals(instruction, that.instruction);
+        return instructionId == that.instructionId && Objects.equals(instruction, that.instruction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, instruction);
+        return Objects.hash(instructionId, instruction);
     }
 
     @Override
     public String toString() {
         return "RecipeInstruction{" +
-                "id=" + id +
+                "instructionId=" + instructionId +
                 ", instruction='" + instruction + '\'' +
                 '}';
     }
